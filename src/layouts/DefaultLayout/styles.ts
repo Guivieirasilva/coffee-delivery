@@ -14,7 +14,7 @@ export const LayoutContainer = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1160px;
+  max-width: 1440px;
   padding: 32px 20px;
 `
 export const LocationLinks = styled.aside`
