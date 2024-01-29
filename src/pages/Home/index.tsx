@@ -11,6 +11,7 @@ import {
 } from './styles'
 import { useTheme } from 'styled-components'
 import { CoffeeCard } from '../../components/CoffeeCard'
+import { coffees } from '../../coffees/coffees.json'
 
 export function Home() {
   const theme = useTheme()
@@ -73,14 +74,9 @@ export function Home() {
       <CoffeeList>
         <h2>Nossos cafés</h2>
         <div>
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
-          <CoffeeCard />
+          {coffees.map((coffeeData) => (
+            <CoffeeCard key={coffeeData.id} coffee={coffeeData} />
+          ))}
         </div>
       </CoffeeList>
     </ContainerHome>
