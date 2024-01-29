@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Bank,
   CreditCard,
@@ -26,10 +27,110 @@ import { TextInput } from '../../components/Form/Input'
 import { QuantityInput } from '../../components/Form/QuantityInput'
 import { useState } from 'react'
 
-import CoffeeTeste from '../../assets/coffees/americano.svg'
+interface FormCheckouType {
+  cep: string
+  number: string
+  complement: string
+  street: string
+  district: string
+  city: string
+  uf: string
+  formOfPayment: 'cash' | 'credit' | 'debit' | ''
+}
+
+interface ResponseCepSearchType {
+  cep: string
+  logradouro: string
+  complemento: string
+  bairro: string
+  localidade: string
+  uf: string
+  ibge: string
+  gia: string
+  ddd: string
+  siafi: string
+  erro: boolean
+}
 
 export function Checkout() {
   const [hide] = useState(true)
+
+  const [form, setForm] = useState<FormCheckouType>({
+    cep: '',
+    city: '',
+    complement: '',
+    district: '',
+    number: '',
+    street: '',
+    uf: '',
+    formOfPayment: '',
+  })
+
+  const isFormComplete = () => {
+    // Excluir o campo 'complement' da verificação
+    const { complement, ...fieldsToCheck } = form
+
+    // Verificar se todos os campos restantes estão preenchidos
+    return Object.values(fieldsToCheck).every((value) => value.trim() !== '')
+  }
+
+  async function buscarInformacoesCEP() {
+    if (form.cep.length < 8) return
+
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${form.cep}/json/`)
+
+      const data: ResponseCepSearchType = await response.json()
+
+      if (data.erro) {
+        alert(
+          'Não foi possível buscar informações do CEP informando, por favor preencha os campos manualmente!',
+        )
+      }
+
+      setForm((prevForm) => ({
+        ...prevForm,
+        city: data.localidade,
+        district: data.bairro,
+        street: data.logradouro,
+        uf: data.uf,
+      }))
+    } catch (error) {
+      console.error(error)
+      return null
+    }
+  }
+
+  function formatCEP(cep: string) {
+    cep = cep.replace(/\D/g, '')
+
+    cep = cep.replace(/^(\d{5})(\d{3})$/, '$1-$2')
+
+    return cep
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+
+    if (name === 'cep') {
+      setForm((prevForm) => ({
+        ...prevForm,
+        cep: formatCEP(value),
+      }))
+    } else {
+      setForm((prevForm) => ({
+        ...prevForm,
+        [name]: value,
+      }))
+    }
+  }
+
+  function handleFormOfPayment(payment: 'cash' | 'credit' | 'debit') {
+    setForm((prevState) => ({
+      ...prevState,
+      formOfPayment: payment,
+    }))
+  }
 
   return (
     <Container>
@@ -44,16 +145,53 @@ export function Checkout() {
             </div>
           </AddressHeading>
           <FormContainer action="">
-            <TextInput placeholder="Cep" />
-            <TextInput placeholder="Rua" />
+            <TextInput
+              value={form.cep}
+              name="cep"
+              onChange={handleChange}
+              placeholder="Cep"
+              onBlur={buscarInformacoesCEP}
+            />
+            <TextInput
+              value={form.street}
+              name="street"
+              onChange={handleChange}
+              placeholder="Rua"
+            />
             <div className="separator">
-              <TextInput placeholder="Número" />
-              <TextInput placeholder="Complemento" optional={true} />
+              <TextInput
+                value={form.number}
+                name="number"
+                onChange={handleChange}
+                placeholder="Número"
+              />
+              <TextInput
+                value={form.complement}
+                name="complement"
+                onChange={handleChange}
+                placeholder="Complemento"
+                optional={true}
+              />
             </div>
             <div className="separator2">
-              <TextInput placeholder="Bairro" />
-              <TextInput placeholder="Cidade" />
-              <TextInput placeholder="UF" />
+              <TextInput
+                value={form.district}
+                name="district"
+                onChange={handleChange}
+                placeholder="Bairro"
+              />
+              <TextInput
+                value={form.city}
+                name="city"
+                onChange={handleChange}
+                placeholder="Cidade"
+              />
+              <TextInput
+                value={form.uf}
+                name="uf"
+                onChange={handleChange}
+                placeholder="UF"
+              />
             </div>
           </FormContainer>
         </AddressSection>
@@ -68,17 +206,32 @@ export function Checkout() {
             </div>
           </PaymentHeading>
           <FormOfPaymentSection>
-            <FormOfPaymentButton name="credito" type="button">
+            <FormOfPaymentButton
+              IsActive={form.formOfPayment === 'credit'}
+              onClick={() => handleFormOfPayment('credit')}
+              name="credit"
+              type="button"
+            >
               {' '}
               <CreditCard size={16} />
               CARTÃO DE CRÉDITO{' '}
             </FormOfPaymentButton>
-            <FormOfPaymentButton name="debito" type="button">
+            <FormOfPaymentButton
+              IsActive={form.formOfPayment === 'debit'}
+              onClick={() => handleFormOfPayment('debit')}
+              name="debit"
+              type="button"
+            >
               {' '}
               <Bank size={16} />
               CARTÃO DE DÉBITO{' '}
             </FormOfPaymentButton>
-            <FormOfPaymentButton name="dinheiro" type="button">
+            <FormOfPaymentButton
+              IsActive={form.formOfPayment === 'cash'}
+              onClick={() => handleFormOfPayment('cash')}
+              name="cash"
+              type="button"
+            >
               {' '}
               <Money size={16} />
               DINHEIRO{' '}
@@ -94,7 +247,7 @@ export function Checkout() {
           <div>
             <Coffees>
               <div>
-                <img src={CoffeeTeste} alt="" />
+                <img src="" alt="" />
 
                 <div>
                   <span>Americano</span>
@@ -132,7 +285,9 @@ export function Checkout() {
                   <span>R$ 9,90</span>
                 </ItemsTotal>
               </div>
-              <button disabled>CONFIRMAR PEDIDO</button>
+              <button type="submit" disabled={!isFormComplete()}>
+                CONFIRMAR PEDIDO
+              </button>
             </CartTotal>
           </div>
         ) : (

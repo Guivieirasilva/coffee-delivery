@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { mixins } from '../../styles/mixins'
+import { DetailedHTMLProps, ButtonHTMLAttributes } from 'react'
 
 export const Container = styled.section`
   display: flex;
@@ -111,7 +112,15 @@ export const FormOfPaymentSection = styled.div`
     /* flex-direction: column; */
   }
 `
-export const FormOfPaymentButton = styled.button`
+interface FormOfPaymentButtonProps
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  IsActive?: boolean
+}
+
+export const FormOfPaymentButton = styled.button<FormOfPaymentButtonProps>`
   ${mixins.fonts.buttonM}
   background-color: ${({ theme }) => theme.colors['base-button']};
   display: flex;
@@ -122,6 +131,8 @@ export const FormOfPaymentButton = styled.button`
   height: 51px;
   border-radius: 6px;
   transition: background-color 0.2s linear;
+  border: ${({ IsActive, theme }) =>
+    IsActive ? `1px solid ${theme.colors.purple.dark}` : 'none'};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors['base-hover']};
