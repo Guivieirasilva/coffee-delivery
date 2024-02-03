@@ -2,8 +2,10 @@ import { Link, Outlet } from 'react-router-dom'
 import { Container, LayoutContainer, LocationLinks } from './styles'
 import LOGO from '../../assets/Logo.svg'
 import { MapPin, ShoppingCart } from '@phosphor-icons/react'
+import { useCoffees } from '../../hooks/useCoffes'
 
 export function DefaultLayout() {
+  const { cart } = useCoffees()
   return (
     <Container>
       <LayoutContainer>
@@ -15,9 +17,9 @@ export function DefaultLayout() {
             <MapPin size={22} weight="fill" />
             <span>Porto Alegre, RS</span>
           </div>
-          <Link to="/Checkout">
+          <Link to="/checkout">
             <ShoppingCart size={22} weight="fill" />
-            <span>3</span>
+            {cart.length > 0 && <span>{cart.length}</span>}
           </Link>
         </LocationLinks>
       </LayoutContainer>

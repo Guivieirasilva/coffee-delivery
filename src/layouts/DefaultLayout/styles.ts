@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { mixins } from '../../styles/mixins'
 
-export const Container = styled.div`
+export const Container = styled.header`
   width: 100vw;
   display: flex;
   align-items: center;
@@ -15,12 +15,12 @@ export const LayoutContainer = styled.nav`
   align-items: center;
   justify-content: space-between;
   max-width: 1440px;
-  padding: 32px 20px;
+  padding: 32px 1rem;
 `
 export const LocationLinks = styled.aside`
   display: flex;
   gap: 12px;
-
+  padding-right: 1.5rem;
   div {
     background-color: ${({ theme }) => theme.colors.purple.light};
     padding: 0.5rem;
