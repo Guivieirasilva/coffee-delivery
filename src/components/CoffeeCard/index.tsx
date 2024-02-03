@@ -10,11 +10,13 @@ import {
 } from './styles'
 
 import { QuantityInput } from '../Form/QuantityInput'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTheme } from 'styled-components'
+import { useCoffees } from '../../hooks/useCoffes'
 
-interface CoffeesCardProps {
+export interface Props {
   coffee: {
+    id: string
     title: string
     description: string
     tags: string[]
@@ -23,10 +25,42 @@ interface CoffeesCardProps {
   }
 }
 
-export function CoffeeCard({ coffee }: CoffeesCardProps) {
+export function CoffeeCard({ coffee }: Props) {
   const theme = useTheme()
-  const [isItemAdded] = useState(false)
+  const { addCoffee } = useCoffees()
+  const [quantity, setQuantity] = useState(1)
+  const [isItemAdded, setIsItemAdded] = useState(false)
   const { image, description, price, tags, title } = coffee
+
+  function decrementQuantity() {
+    setQuantity((state) => Math.max(state - 1, 1))
+  }
+
+  function incrementQuantity() {
+    setQuantity((state) => state + 1)
+  }
+
+  function handleAddCoffee() {
+    addCoffee({ id: coffee.id, quantity })
+    setIsItemAdded(true)
+    setQuantity(1)
+  }
+
+  useEffect(() => {
+    let time: NodeJS.Timeout | undefined
+
+    if (isItemAdded) {
+      time = setTimeout(() => {
+        setIsItemAdded(false)
+      }, 1000)
+    }
+
+    return () => {
+      if (time) {
+        clearTimeout(time)
+      }
+    }
+  }, [isItemAdded])
 
   return (
     <CoffeeContainer>
@@ -43,14 +77,14 @@ export function CoffeeCard({ coffee }: CoffeesCardProps) {
           <span>R$</span>
           <span>{price.toFixed(2)}</span>
         </Price>
-        <Order>
+        <Order $itemAdded={isItemAdded}>
           <QuantityInput
-            quantity={1}
-            incrementQuantity={() => {}}
-            decrementQuantity={() => {}}
+            quantity={quantity}
+            incrementQuantity={incrementQuantity}
+            decrementQuantity={decrementQuantity}
           />
 
-          <button disabled={isItemAdded}>
+          <button onClick={handleAddCoffee} disabled={isItemAdded}>
             {isItemAdded ? (
               <CheckFat
                 weight="fill"

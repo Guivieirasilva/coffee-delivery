@@ -78,7 +78,7 @@ export const Order = styled.div<{ $itemAdded?: boolean }>`
 
   > button {
     background-color: ${({ theme, $itemAdded }) =>
-      $itemAdded ? theme.colors.yellow.dark : theme.colors.purple.dark};
+      $itemAdded ? theme.colors.green : theme.colors.purple.dark};
     transition: background-color 0.2s;
     border-radius: 6px;
     padding: 8px;
