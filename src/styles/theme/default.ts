@@ -11,6 +11,8 @@ export const defaultTheme = {
     'base-subtitle': '#403937',
     'base-title': '#272221',
 
+    green: '#008000',
+
     yellow: {
       light: '#F1E9C9',
       medium: '#DBAC2C',
