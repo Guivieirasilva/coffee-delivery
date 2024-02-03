@@ -1,6 +1,5 @@
 import { Coffee, Package, ShoppingCart, Timer } from '@phosphor-icons/react'
 import Hero from '../../assets/images/hero.svg'
-// import BgHero from '../../assets/images/hero-bg.svg'
 
 import {
   ContainerHero,
@@ -66,10 +65,9 @@ export function Home() {
             </div>
           </div>
         </HeroContent>
-        <div>
+        <div className="imgHero">
           <img src={Hero} alt="Embalagem de Café do Coffee Delivery" />
         </div>
-        {/* <img id="bg" src={BgHero} alt="" /> */}
       </ContainerHero>
       <CoffeeList>
         <h2>Nossos cafés</h2>

@@ -8,11 +8,7 @@ export const ContainerHome = styled.main`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* h2 {
-    align-self: flex-start;
-    ${mixins.fonts.titleL}
-    color: ${({ theme }) => theme.colors['base-title']}
-  } */
+  padding: 0 1rem;
 `
 
 export const ContainerHero = styled.section`
@@ -26,6 +22,13 @@ export const ContainerHero = styled.section`
   @media (max-width: 850px) {
     flex-direction: column;
     gap: 4rem;
+  }
+
+  div.imgHero {
+    flex: 1;
+    > img {
+      width: 100%;
+    }
   }
 
   img#bg {
