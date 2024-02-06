@@ -2,7 +2,7 @@
 
 Este repositório contém a solução para o segundo desafio da trilha de **ReactJS** do **Ignite** by Rocketseat. O desafio consistiu no desenvolvimento de uma aplicação para gerenciar um carrinho de compras de uma cafeteria fictícia, explorando conceitos avançados de React e suas tecnologias associadas.
 
-![Página Home do Projeto, contendo o menu de navegação, o banner de apresentação do coffee delivery e a lista de cafés](./coffee-delivery.PNG)
+![Página Home do Projeto, contendo o menu de navegação, o banner de apresentação do coffee delivery e a lista de cafés](./public/coffee-delivery.PNG)
 
 ## Funcionalidades Implementadas:
 
