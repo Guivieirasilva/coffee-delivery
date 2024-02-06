@@ -1,30 +1,64 @@
-# React + TypeScript + Vite
+# Desafio Ignite - ReactJS - Coffee Delivery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositório contém a solução para o segundo desafio da trilha de **ReactJS** do **Ignite** by Rocketseat. O desafio consistiu no desenvolvimento de uma aplicação para gerenciar um carrinho de compras de uma cafeteria fictícia, explorando conceitos avançados de React e suas tecnologias associadas.
 
-Currently, two official plugins are available:
+![Página Home do Projeto, contendo o menu de navegação, o banner de apresentação do coffee delivery e a lista de cafés](./coffee-delivery.PNG)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades Implementadas:
 
-## Expanding the ESLint configuration
+1. **Listagem de Produtos (Cafés):**
+   - Os cafés disponíveis para compra são apresentados de forma clara e organizada.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2. **Gestão do Carrinho:**
+   - Adição de quantidade específica de itens no carrinho.
+   - Aumento ou remoção da quantidade de itens no carrinho.
 
-- Configure the top-level `parserOptions` property like this:
+3. **Formulário de Endereço:**
+   - Usuários podem preencher seu endereço para entrega.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+4. **Consulta de CEP (Funcionalidade Adicional):**
+   - Usuários podem preencher seu endereço para entrega.
+     
+5. **Exibição no Header:**
+   - O total de itens no carrinho é exibido no cabeçalho da aplicação.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+6. **Cálculo do Valor Total:**
+   - Exibição do valor total do carrinho, calculado multiplicando a quantidade de itens pelo valor unitário.
+
+## Tecnologias Utilizadas:
+
+- ReactJS + TypeScript
+- Immer
+- React Router DOM
+- Styled-Components
+- ViaCEP API (https://viacep.com.br/)
+
+## Aprendizados Adquiridos:
+
+Durante a resolução deste desafio, aprofundei meu entendimento em diversos conceitos:
+
+- Manipulação eficiente de estados no ReactJS.
+- Utilização da ContextAPI para compartilhamento de informações entre componentes.
+- Persistência de dados com o uso do LocalStorage.
+- Prática de conceitos de imutabilidade do estado.
+- Trabalho com listas e chaves no ReactJS.
+- Gerenciamento de propriedades e componentização.
+- Uso de bibliotecas como Immer para simplificar a manipulação do estado global.
+- Implementação e compreensão de reducers.
+- Roteamento de páginas com React Router DOM.
+- Estilização de componentes utilizando Styled-Components.
+
+A adição do conceito de **reducers** proporcionou uma abordagem mais estruturada na manipulação do estado, melhorando a organização e legibilidade do código. A compreensão profunda desses conceitos é crucial para construir aplicações React mais robustas e escaláveis.
+
+## Como Executar o Projeto:
+
+1. Clone o repositório: `git clone https://github.com/Guivieirasilva/coffee-delivery.git`
+2. Instale as dependências: `npm install` ou `yarn install`
+3. Execute o projeto: `npm run dev` ou `yarn dev`
+4. Acesse a aplicação no seu navegador: `http://localhost:3000`
+
+Sinta-se à vontade para explorar o código-fonte, verificar as implementações e contribuir com melhorias. Espero que este desafio tenha sido enriquecedor e que você tenha consolidado seus conhecimentos em ReactJS. Se tiver alguma dúvida, fique à vontade para entrar em contato!
+
+Boa codificação! 🚀
+
+
