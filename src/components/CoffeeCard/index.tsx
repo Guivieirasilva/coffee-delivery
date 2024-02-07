@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CheckFat, ShoppingCart } from '@phosphor-icons/react'
 import {
   Tags,
@@ -54,7 +55,7 @@ export function CoffeeCard({ coffee }: Props) {
   }
 
   useEffect(() => {
-    let time: NodeJS.Timeout | undefined
+    let time: any
 
     if (isItemAdded) {
       time = setTimeout(() => {
