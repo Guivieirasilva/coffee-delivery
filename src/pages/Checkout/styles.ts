@@ -2,19 +2,21 @@ import styled from 'styled-components'
 import { mixins } from '../../styles/mixins'
 import { DetailedHTMLProps, ButtonHTMLAttributes } from 'react'
 
-export const Container = styled.section`
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
+export const Container = styled.form`
   width: 100%;
-  padding: 1rem 2rem;
+
   max-width: 1440px;
-  h2 {
-    ${mixins.fonts.titleS}
-  }
+
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 2rem;
 
   @media (max-width: 750px) {
     flex-direction: column;
+  }
+
+  h2 {
+    ${mixins.fonts.titleS}
   }
 `
 export const CheckoutSection = styled.section`
@@ -70,7 +72,7 @@ export const CoffeeSection = styled.section`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
     width: 100%;
     padding: 2.5rem;
     max-width: 640px;
@@ -146,15 +148,20 @@ export const Coffees = styled.div`
   display: flex;
   justify-content: space-between;
   width: 90%;
+  flex-direction: column;
+  gap: 1.5rem;
+
   > div {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-evenly;
+
+    gap: 20px;
+
     > img {
       width: 64px;
       height: 64px;
     }
-
-    display: flex;
-    align-items: stretch;
-    gap: 20px;
 
     > div {
       display: flex;
@@ -163,8 +170,24 @@ export const Coffees = styled.div`
     }
   }
 
-  > aside {
-    font-weight: bold;
+  > div.unitaryValue {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    justify-content: space-between;
+
+    > aside,
+    span {
+      font-weight: bold;
+    }
+
+    span::after {
+      content: ':';
+    }
+
+    > aside {
+      align-self: center;
+    }
   }
 `
 export const CoffeeInfo = styled.div`

@@ -24,9 +24,6 @@ export function Thanks() {
     return paymentMethodValues[method]
   }
 
-  console.log(orderId)
-  console.log(OrderCurrent)
-
   if (OrderCurrent) {
     return (
       <Container>
@@ -45,9 +42,19 @@ export function Thanks() {
                   style={{ backgroundColor: theme.colors.purple.medium }}
                 />
                 <p>
-                  Entrega em <strong>{OrderCurrent.street}</strong> <br />
+                  Entrega em{' '}
+                  <strong>
+                    {OrderCurrent.street}, {OrderCurrent.number}
+                  </strong>{' '}
+                  <br />
                   {OrderCurrent.district} - {OrderCurrent.city},{' '}
                   {OrderCurrent.uf}
+                  <br />
+                  {OrderCurrent.complement
+                    ? `
+                    Complemento: ${(<em>${OrderCurrent.complement}</em>)}
+                  `
+                    : null}
                 </p>
               </div>
               <div>

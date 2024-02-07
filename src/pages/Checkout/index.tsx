@@ -78,6 +78,10 @@ export function Checkout() {
     }
   })
 
+  const totalItemsPrice = coffeesInCart.reduce((previousValue, currentItem) => {
+    return (previousValue += currentItem.price * currentItem.quantity)
+  }, 0)
+
   const [form, setForm] = useState<FormCheckouType>({
     cep: '',
     city: '',
@@ -88,6 +92,9 @@ export function Checkout() {
     uf: '',
     formOfPayment: '',
   })
+
+  const deliveryValue = form.street ? 7.5 : 0
+  const valueTotal = totalItemsPrice + deliveryValue
 
   const isFormComplete = () => {
     // Excluir o campo 'complement' da verificação
@@ -169,187 +176,185 @@ export function Checkout() {
 
   function handleOrderCheckout() {
     event?.preventDefault()
-    // console.log(data)
     checkout(form)
   }
 
   return (
-    <Container>
-      <form onSubmit={handleOrderCheckout}>
-        <CheckoutSection>
-          <h2>Complete seu pedido</h2>
-          <AddressSection>
-            <AddressHeading>
-              <MapPinLine size={32} />
-              <div>
-                <h3>Endereço de Entrega</h3>
-                <p>Informe o endereço onde deseja receber seu pedido</p>
-              </div>
-            </AddressHeading>
-            <FormContainer>
-              <TextInput
-                value={form.cep}
-                name="cep"
-                onChange={handleChange}
-                placeholder="Cep"
-                onBlur={buscarInformacoesCEP}
-              />
-              <TextInput
-                value={form.street}
-                name="street"
-                onChange={handleChange}
-                placeholder="Rua"
-              />
-              <div className="separator">
-                <TextInput
-                  value={form.number}
-                  name="number"
-                  onChange={handleChange}
-                  placeholder="Número"
-                />
-                <TextInput
-                  value={form.complement}
-                  name="complement"
-                  onChange={handleChange}
-                  placeholder="Complemento"
-                  optional={true}
-                />
-              </div>
-              <div className="separator2">
-                <TextInput
-                  value={form.district}
-                  name="district"
-                  onChange={handleChange}
-                  placeholder="Bairro"
-                />
-                <TextInput
-                  value={form.city}
-                  name="city"
-                  onChange={handleChange}
-                  placeholder="Cidade"
-                />
-                <TextInput
-                  value={form.uf}
-                  name="uf"
-                  onChange={handleChange}
-                  placeholder="UF"
-                />
-              </div>
-            </FormContainer>
-          </AddressSection>
-          <PaymentSection>
-            <PaymentHeading>
-              <CurrencyDollar size={32} />
-              <div>
-                <h3>Pagamento</h3>
-                <p>
-                  O Pagamento é feito na entrega. Escolha a forma que deseja
-                  pagar
-                </p>
-              </div>
-            </PaymentHeading>
-            <FormOfPaymentSection>
-              <FormOfPaymentButton
-                IsActive={form.formOfPayment === 'credit'}
-                onClick={() => handleFormOfPayment('credit')}
-                name="credit"
-                type="button"
-              >
-                {' '}
-                <CreditCard size={16} />
-                CARTÃO DE CRÉDITO{' '}
-              </FormOfPaymentButton>
-              <FormOfPaymentButton
-                IsActive={form.formOfPayment === 'debit'}
-                onClick={() => handleFormOfPayment('debit')}
-                name="debit"
-                type="button"
-              >
-                {' '}
-                <Bank size={16} />
-                CARTÃO DE DÉBITO{' '}
-              </FormOfPaymentButton>
-              <FormOfPaymentButton
-                IsActive={form.formOfPayment === 'cash'}
-                onClick={() => handleFormOfPayment('cash')}
-                name="cash"
-                type="button"
-              >
-                {' '}
-                <Money size={16} />
-                DINHEIRO{' '}
-              </FormOfPaymentButton>
-            </FormOfPaymentSection>
-          </PaymentSection>
-        </CheckoutSection>
-        <CoffeeSection>
-          <h2>Cafés selecionados</h2>
-
-          {coffeesInCart.length >= 1 ? (
+    <Container onSubmit={handleOrderCheckout}>
+      <CheckoutSection>
+        <h2>Complete seu pedido</h2>
+        <AddressSection>
+          <AddressHeading>
+            <MapPinLine size={32} />
             <div>
-              {coffeesInCart.map((coffee) => (
-                <Fragment key={coffee.id}>
-                  <Coffees>
-                    <div>
-                      <img src={coffee.image} alt={coffee.description} />
-
-                      <div>
-                        <span>{coffee.title}</span>
-
-                        <CoffeeInfo>
-                          <QuantityInput
-                            quantity={coffee.quantity}
-                            incrementQuantity={() =>
-                              handleIncrementCoffeeQuantity(coffee.id)
-                            }
-                            decrementQuantity={() =>
-                              handleDecrementCoffeeQuantity(coffee.id)
-                            }
-                          />
-
-                          <button onClick={() => handleRemoveCoffee(coffee.id)}>
-                            <Trash />
-                            <span>Remover</span>
-                          </button>
-                        </CoffeeInfo>
-                      </div>
-                    </div>
-
-                    <aside>R$ {coffee.price.toFixed()}</aside>
-                  </Coffees>
-                  <span />
-                </Fragment>
-              ))}
-              <CartTotal>
-                <div>
-                  <ItemsTotal>
-                    <span>Total de itens</span>
-                    <span>R$ 9,90</span>
-                  </ItemsTotal>
-                  <ItemsTotal>
-                    <span>Entrega</span>
-                    <span>R$ 9,90</span>
-                  </ItemsTotal>
-                  <ItemsTotal>
-                    <span>Total</span>
-                    <span>R$ 9,90</span>
-                  </ItemsTotal>
-                </div>
-                <button type="submit" disabled={!isFormComplete()}>
-                  CONFIRMAR PEDIDO
-                </button>
-              </CartTotal>
+              <h3>Endereço de Entrega</h3>
+              <p>Informe o endereço onde deseja receber seu pedido</p>
             </div>
-          ) : (
-            <div className="empty">
+          </AddressHeading>
+          <FormContainer>
+            <TextInput
+              value={form.cep}
+              name="cep"
+              onChange={handleChange}
+              placeholder="Cep"
+              onBlur={buscarInformacoesCEP}
+            />
+            <TextInput
+              value={form.street}
+              name="street"
+              onChange={handleChange}
+              placeholder="Rua"
+            />
+            <div className="separator">
+              <TextInput
+                value={form.number}
+                name="number"
+                onChange={handleChange}
+                placeholder="Número"
+              />
+              <TextInput
+                value={form.complement}
+                name="complement"
+                onChange={handleChange}
+                placeholder="Complemento"
+                optional={true}
+              />
+            </div>
+            <div className="separator2">
+              <TextInput
+                value={form.district}
+                name="district"
+                onChange={handleChange}
+                placeholder="Bairro"
+              />
+              <TextInput
+                value={form.city}
+                name="city"
+                onChange={handleChange}
+                placeholder="Cidade"
+              />
+              <TextInput
+                value={form.uf}
+                name="uf"
+                onChange={handleChange}
+                placeholder="UF"
+              />
+            </div>
+          </FormContainer>
+        </AddressSection>
+        <PaymentSection>
+          <PaymentHeading>
+            <CurrencyDollar size={32} />
+            <div>
+              <h3>Pagamento</h3>
               <p>
-                seu carrinho está vazio 😭 <br /> Clique{' '}
-                <Link to="/">aqui</Link> para voltar á loja{' '}
+                O Pagamento é feito na entrega. Escolha a forma que deseja pagar
               </p>
             </div>
-          )}
-        </CoffeeSection>{' '}
-      </form>
+          </PaymentHeading>
+          <FormOfPaymentSection>
+            <FormOfPaymentButton
+              IsActive={form.formOfPayment === 'credit'}
+              onClick={() => handleFormOfPayment('credit')}
+              name="credit"
+              type="button"
+            >
+              {' '}
+              <CreditCard size={16} />
+              CARTÃO DE CRÉDITO{' '}
+            </FormOfPaymentButton>
+            <FormOfPaymentButton
+              IsActive={form.formOfPayment === 'debit'}
+              onClick={() => handleFormOfPayment('debit')}
+              name="debit"
+              type="button"
+            >
+              {' '}
+              <Bank size={16} />
+              CARTÃO DE DÉBITO{' '}
+            </FormOfPaymentButton>
+            <FormOfPaymentButton
+              IsActive={form.formOfPayment === 'cash'}
+              onClick={() => handleFormOfPayment('cash')}
+              name="cash"
+              type="button"
+            >
+              {' '}
+              <Money size={16} />
+              DINHEIRO{' '}
+            </FormOfPaymentButton>
+          </FormOfPaymentSection>
+        </PaymentSection>
+      </CheckoutSection>
+      <CoffeeSection>
+        <h2>Cafés selecionados</h2>
+
+        {coffeesInCart.length >= 1 ? (
+          <div>
+            {coffeesInCart.map((coffee) => (
+              <Fragment key={coffee.id}>
+                <Coffees>
+                  <div>
+                    <img src={coffee.image} alt={coffee.description} />
+
+                    <div>
+                      <span>{coffee.title}</span>
+
+                      <CoffeeInfo>
+                        <QuantityInput
+                          quantity={coffee.quantity}
+                          incrementQuantity={() =>
+                            handleIncrementCoffeeQuantity(coffee.id)
+                          }
+                          decrementQuantity={() =>
+                            handleDecrementCoffeeQuantity(coffee.id)
+                          }
+                        />
+
+                        <button onClick={() => handleRemoveCoffee(coffee.id)}>
+                          <Trash />
+                          <span>Remover</span>
+                        </button>
+                      </CoffeeInfo>
+                    </div>
+                  </div>
+                  <div className="unitaryValue">
+                    <span>Valor Unitario</span>
+                    <aside>R$ {coffee.price.toFixed(2)}</aside>
+                  </div>
+                </Coffees>
+                <span />
+              </Fragment>
+            ))}
+            <CartTotal>
+              <div>
+                <ItemsTotal>
+                  <span>Total de itens</span>
+                  <span>R$ {totalItemsPrice.toFixed(2)}</span>
+                </ItemsTotal>
+                <ItemsTotal>
+                  <span>Entrega</span>
+                  <span>R$ {deliveryValue.toFixed(2)}</span>
+                </ItemsTotal>
+                <ItemsTotal>
+                  <span>Total</span>
+                  <span>R$ {valueTotal.toFixed(2)}</span>
+                </ItemsTotal>
+              </div>
+              <button type="submit" disabled={!isFormComplete()}>
+                CONFIRMAR PEDIDO
+              </button>
+            </CartTotal>
+          </div>
+        ) : (
+          <div className="empty">
+            <p>
+              seu carrinho está vazio 😭 <br /> Clique <Link to="/">aqui</Link>{' '}
+              para voltar á loja{' '}
+            </p>
+          </div>
+        )}
+      </CoffeeSection>{' '}
     </Container>
   )
 }
