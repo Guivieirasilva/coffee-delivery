@@ -48,7 +48,11 @@ export function cartReducer(state: CartState, action: Actions) {
           (item) => item.id === action.payload.itemId,
         )
         if (ItemToIncrement?.id) {
-          ItemToIncrement.quantity += 1
+          if (ItemToIncrement.quantity < 10) {
+            ItemToIncrement.quantity += 1
+          } else {
+            alert('Você só pode selecionar até 10 cafés do mesmo tipo.')
+          }
         }
       })
 
@@ -74,7 +78,8 @@ export function cartReducer(state: CartState, action: Actions) {
 
         action.payload.callback(`/order/${newForm.id}/Thanks`)
       })
-  }
 
-  return state
+    default:
+      return state
+  }
 }
