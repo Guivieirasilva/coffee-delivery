@@ -48,9 +48,3 @@ export const Container = styled.label`
     font-style: italic;
   }
 `
-
-export const ErrorMessage = styled.p`
-  ${mixins.fonts.textXS};
-  font-weight: 400;
-  color: red;
-`
