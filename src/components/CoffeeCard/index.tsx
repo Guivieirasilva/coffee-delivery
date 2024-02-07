@@ -37,7 +37,14 @@ export function CoffeeCard({ coffee }: Props) {
   }
 
   function incrementQuantity() {
-    setQuantity((state) => state + 1)
+    setQuantity((state) => {
+      if (state < 10) {
+        return state + 1
+      } else {
+        alert('Você só pode selecionar até 10 cafés do mesmo tipo.')
+        return state
+      }
+    })
   }
 
   function handleAddCoffee() {
